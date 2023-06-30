@@ -2,4 +2,4 @@
 # This script displays the visitor IP along with the HTTP status code from the Apache log file
 
 # Use awk to extract the IP and HTTP status code
-awk '{print $1, $9}' /var/log/apache2/access.log
+awk '{print $1, $9}' apache-access.log
