@@ -2,8 +2,8 @@
 
 input = ARGV[0]  # Get the argument passed to the script
 
-if input =~ /School/
-  puts "School"
-else
-  puts ""  # Print an empty string if there is no match
-end
+matches = input.scan(/School/)  # Find all occurrences of "School" in the input
+
+result = matches.join('')  # Join the matching results
+
+puts result
