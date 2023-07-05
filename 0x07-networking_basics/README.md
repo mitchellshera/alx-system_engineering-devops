@@ -1,0 +1,1 @@
+Start of topic networking, learning about OSI models, IPV4,IPV6 ETC
