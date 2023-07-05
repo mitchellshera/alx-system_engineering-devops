@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+# Change localhost to 127.0.0.2
+# Change facebook.com to 8.8.8.8
+
+# Set the custom filename for the modified hosts file
+new_hosts_file="custom_hosts"
+
+# Create a backup of the original hosts file
+cp /etc/hosts ~/"$new_hosts_file"
+
+# Use sed to modify the hosts file
+sed -i 's/127.*$/127.0.0.2 localhost\n8.8.8.8 facebook.com/' ~/"$new_hosts_file"
+
+# Replace the original hosts file with the modified one
+cp -f ~/"$new_hosts_file" /etc/hosts
