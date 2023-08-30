@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 
-echo "Hello Holberton" > index.html
+echo "ServerName localhost" > server-name.conf
 service apache2 start
