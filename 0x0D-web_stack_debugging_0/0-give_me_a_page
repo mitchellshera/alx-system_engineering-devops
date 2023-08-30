@@ -1,3 +1,4 @@
 #!/usr/bin/env bash
 
 docker run -p 8080:80 -d holbertonschool/265-0 apache2ctl -D FOREGROUND
+docker exec -it b09e7d4900e8  /bin/bash
