@@ -1,4 +1,4 @@
-#!/usrbin/env bash
+#!/usr/bin/env bash
 
 # Display usage if less than 4 parameters are provided
 if [ "$#" -lt 4 ]; then
