@@ -1,28 +1,25 @@
 #!/usr/bin/env bash
+# Install nginx and configure redirection
 
-# Install Nginx if not already installed
-sudo apt-get -y update
-sudo apt-get -y install nginx
+apt-get -y update
+apt-get -y install nginx
+ufw allow 'Nginx HTTP'
 
-# Create a configuration file for the redirection
+echo '
 server {
-    listen 80 default_server;
-    listen [::]:80 default_server;
+    listen 80;
+    listen [::]:80;
+
     server_name _;
 
     location /redirect_me {
         return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;
     }
 
-    # Other server configurations
+    location / {
+        return 404;
+    }
 }
-EOT
+' > /etc/nginx/sites-available/default
 
-# Enable the new configuration
-sudo ln -s /etc/nginx/sites-available/3-redirection /etc/nginx/sites-enabled/
-
-# Test the Nginx configuration
-sudo nginx -t
-
-# Reload Nginx to apply the changes
-sudo systemctl reload nginx
+service nginx reload
