@@ -1,17 +1,8 @@
 #!/usr/bin/env bash
+# installs nginx and configures it
 
-# Update package list and install nginx
-echo "Updating package list and installing nginx..."
-sudo apt-get update
-sudo apt-get install -y nginx
-
-# Configure nginx to listen on port 80 and serve "Hello World!" page
-echo "Configuring nginx..."
-echo "Hello World!" | sudo tee /var/www/html/index.html > /dev/null
-
-# Restart nginx (without using systemctl)
-echo "Restarting nginx..."
-sudo service nginx restart
-
-# Script execution complete
-echo "Nginx installed and configured successfully!"
+apt-get -y update
+apt-get -y install nginx
+ufw allow 'Nginx HTTP'
+echo 'Hello World!' > /var/www/html/index.nginx-debian.html
+service nginx start
