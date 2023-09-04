@@ -6,20 +6,6 @@ sudo apt-get update
 # Install HAProxy
 sudo apt-get install -y haproxy
 
-# Configure HAProxy
-echo "frontend lb-frontend" | sudo tee -a /etc/haproxy/haproxy.cfg
-echo "    bind *:80" | sudo tee -a /etc/haproxy/haproxy.cfg
-echo "    mode http" | sudo tee -a /etc/haproxy/haproxy.cfg
-echo "    default_backend lb-backend" | sudo tee -a /etc/haproxy/haproxy.cfg
-
-echo "backend lb-backend" | sudo tee -a /etc/haproxy/haproxy.cfg
-echo "    mode http" | sudo tee -a /etc/haproxy/haproxy.cfg
-echo "    balance roundrobin" | sudo tee -a /etc/haproxy/haproxy.cfg
-echo "    server web-01 259884-web-01:80 check" | sudo tee -a /etc/haproxy/haproxy.cfg
-echo "    server web-02 259884-web-02:80 check" | sudo tee -a /etc/haproxy/haproxy.cfg
-
-# Enable HAProxy to be managed via init script
-sudo sed -i 's/ENABLED=0/ENABLED=1/' /etc/default/haproxy
-
-# Restart HAProxy to apply the configuration
+sudo sed -i -e '$aENABLED=1\n' /etc/default/haproxy
+sudo sed -i -e '$a\listen http-in\n\tbind :80\n\tbalance roundrobin\n\tserver 259884-web-01 52.23.245.46 check\n\tserver 259884-web-02 52.23.245.46 check\n' /etc/haproxy/haproxy.cfg
 sudo service haproxy restart
