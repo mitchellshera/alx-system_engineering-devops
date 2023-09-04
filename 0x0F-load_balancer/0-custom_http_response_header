@@ -2,13 +2,13 @@
 # Install nginx and configure custom HTTP response header
 
 # Update package list
-apt-get update
-apt-get install -y nginx
+sudo apt-get update
+sudo apt-get install -y nginx
 
 mkdir -p /var/www/html
-touch /var/www/html/index.html
-echo "Holberton School" > /var/www/html/index.html
-touch /var/www/html/404.html
+sudo touch /var/www/html/index.html
+sudo bash -c "echo "Holberton School" > /var/www/html/index.html"
+sudo touch /var/www/html/404.html
 echo "Ceci n'est pas une page" > /var/www/html/404.html
 
 printf %s "server {
@@ -28,6 +28,8 @@ printf %s "server {
       internal;
     }
 }" > /etc/nginx/sites-available/default
+
+sudo ln -s /etc/nginx/sites-available/my_custom_config /etc/nginx/sites-enabled/
 
 # Reload Nginx to apply changes
 sudo service nginx reload
