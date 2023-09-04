@@ -3,16 +3,41 @@
 # Install nginx and configure custom HTTP response header
 
 # Update package list
-sudo apt-get -y update
+apt-get update
 
-# Install nginx
-sudo apt-get -y install nginx
+# Install Nginx
+apt-get install -y nginx
 
-# Allow Nginx HTTP traffic
-sudo ufw allow 'Nginx HTTP'
+# Create web root directory
+mkdir -p /var/www/html
 
-# Create a custom nginx configuration file to set the response header
-echo 'add_header X-Served-By $hostname;' | sudo tee /etc/nginx/conf.d/custom_response_header.conf
+# Create and populate index.html and 404.html
+echo "Holberton School" > /var/www/html/index.html
+echo "Ceci n'est pas une page" > /var/www/html/404.html
 
+# Create a custom Nginx configuration file
+printf %s "server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+    add_header X-Served-By \"$HOSTNAME\";
+    root   /var/www/html;
+    index  index.html index.htm;
+
+    location /redirect_me {
+        return 301 http://cuberule.com/;
+    }
+
+    error_page 404 /404.html;
+    location = /404.html {
+        root /var/www/html;
+        internal;
+    }
+}" > /etc/nginx/sites-available/my_custom_config
+
+# Create a symbolic link to enable the custom configuration
+ln -s /etc/nginx/sites-available/my_custom_config /etc/nginx/sites-enabled/
+
+# Restart Nginx to apply changes
+service nginx restart
 # Reload Nginx to apply changes
 sudo service nginx reload
