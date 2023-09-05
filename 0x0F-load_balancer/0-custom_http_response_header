@@ -5,22 +5,18 @@
 sudo apt-get update
 sudo apt-get install -y nginx
 
-# Create the directory for your web content
-sudo mkdir -p /var/www/html
+mkdir -p /var/www/html
+sudo touch /var/www/html/index.html
+sudo bash -c "echo "Holberton School" > /var/www/html/index.html"
+sudo touch /var/www/html/404.html
+sudo bash -c "echo "Ceci n'est pas une page" > /var/www/html/404.html"
 
-# Create the index.html file with custom content
-sudo bash -c "echo 'Holberton School' > /var/www/html/index.html"
-
-# Create a 404.html file with custom content
-sudo bash -c "echo 'Ceci n'est pas une page' > /var/www/html/404.html"
-
-# Configure Nginx
-printf "server {
+printf %s "server {
     listen 80 default_server;
     listen [::]:80 default_server;
-    add_header X-Served-By \$hostname;
-    root /var/www/html;
-    index index.html index.htm;
+    add_header X-Served-By $HOSTNAME;
+    root   /var/www/html;
+    index  index.html index.htm;
 
     location /redirect_me {
         return 301 http://cuberule.com/;
@@ -28,13 +24,12 @@ printf "server {
 
     error_page 404 /404.html;
     location /404 {
-        root /var/www/html;
-        internal;
+      root /var/www/html;
+      internal;
     }
-}" | sudo tee /etc/nginx/sites-available/default
+}" > /etc/nginx/sites-available/default
 
-# Create a symbolic link to enable the site
-sudo ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/
+sudo ln -s /etc/nginx/sites-available/my_custom_config /etc/nginx/sites-enabled/
 
 # Reload Nginx to apply changes
 sudo service nginx reload
