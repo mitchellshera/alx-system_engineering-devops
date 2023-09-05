@@ -7,15 +7,25 @@ sudo apt-get update -y
 # Install HAProxy
 sudo apt-get install haproxy -y
 
-# Configure HAProxy to send traffic to web-01 and web-02 using roundrobin algorithm
+# Define backend servers
+backend_servers=(
+  "web-01 259884-web-01:80 check"
+  "web-02 259884-web-02:80 check"
+)
+
+# Create the HAProxy configuration
+haproxy_cfg="/etc/haproxy/haproxy.cfg"
 echo "frontend http-in
   bind *:80
   default_backend servers
 
 backend servers
-  balance roundrobin
-  server web-01 259884-web-01:80 check
-  server web-02 259884-web-02:80 check" | sudo tee /etc/haproxy/haproxy.cfg
+  balance roundrobin" | sudo tee "$haproxy_cfg"
+
+# Add backend server entries
+for server_entry in "${backend_servers[@]}"; do
+  echo "  server $server_entry" | sudo tee -a "$haproxy_cfg"
+done
 
 # Ensure HAProxy can be managed via an init script
 sudo systemctl enable haproxy
