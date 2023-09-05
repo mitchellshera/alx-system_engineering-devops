@@ -21,8 +21,8 @@ frontend http-in
 
 backend web-servers
     balance roundrobin
-    server web-01 259884-web-01-54.175.198.8:80 check
-    server web-02 259884-web-02-52.86.56.129:80 check" | sudo tee /etc/haproxy/haproxy.cfg
+    server 259884-web-01 54.175.198.8:80 check
+    server 259884-web-02 52.86.56.129:80 check" | sudo tee /etc/haproxy/haproxy.cfg
 
 # Enable HAProxy as an init service
 sudo systemctl enable haproxy
