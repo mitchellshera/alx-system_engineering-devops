@@ -8,8 +8,8 @@ sudo apt-get install haproxy -y
 
 # Define backend servers
 backend_servers=(
-  "web-01 259884-web-01:80 check"
-  "web-02 259884-web-02:80 check"
+  "web-01 259884-web-01 check"
+  "web-02 259884-web-02 check"
 )
 
 # Create the HAProxy configuration
