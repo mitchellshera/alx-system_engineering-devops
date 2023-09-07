@@ -4,5 +4,5 @@ rm /etc/nginx/sites-enabled/default
 ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
 if ! nginx -t | grep -q "syntax is okay"; then
     exit 1
-fi
-systemctl restart nginx
+f
+service nginx start
