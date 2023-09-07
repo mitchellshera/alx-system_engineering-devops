@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
 # Remove default Nginx config, link to default, validate, and restart Nginx if valid
-rm /etc/nginx/sites-enabled/default
 ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
-if nginx -t -q; then systemctl restart nginx; fi
+service nginx start
+kill "$(pgrep 'nginx' | head -1)"
