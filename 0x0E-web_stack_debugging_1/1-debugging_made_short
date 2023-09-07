@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-# Removes the default Nginx configuration file, creates a symbolic link to the default config,
+# Remove the default Nginx configuration file, link to the default config, check configuration, and restart Nginx
+rm /etc/nginx/sites-enabled/default
 ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
-service nginx start
-kill "$(pgrep 'nginx' | head -1)"
+nginx -t -q || exit 1
+systemctl restart nginx
