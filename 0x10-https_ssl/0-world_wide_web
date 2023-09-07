@@ -1,4 +1,5 @@
-#!/usr/bin/env bash# Function to display DNS information for a subdomain
+#!/usr/bin/env bash
+# Function to display DNS information for a subdomain
 display_dns_info() {
     local domain="$1"
     local subdomain="$2"
