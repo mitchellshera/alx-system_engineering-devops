@@ -1,33 +1,44 @@
 #!/usr/bin/env bash
-# Install HAProxy
+#!/bin/bash
 
+# Update the package list and install HAProxy with the -y option for automatic yes to prompts
 sudo apt-get update -y
-
-# Install HAProxy
 sudo apt-get install haproxy -y
 
-# Define backend servers
-backend_servers=(
-  "web-01 259884-web-01 check"
-  "web-02 259884-web-02 check"
-)
+# Configure HAProxy
+cat <<EOL | sudo tee /etc/haproxy/haproxy.cfg
+global
+    daemon
+    maxconn 256
 
-# Create the HAProxy configuration
-haproxy_cfg="/etc/haproxy/haproxy.cfg"
-echo "frontend http-in
-  bind *:80
-  default_backend servers
+defaults
+    mode http
+    timeout connect 5000ms
+    timeout client 50000ms
+    timeout server 50000ms
+
+frontend http-in
+    bind *:80
+    default_backend servers
 
 backend servers
-  balance roundrobin" | sudo tee "$haproxy_cfg"
+    balance roundrobin
+    server 259884-web-01 52.91.123.176:80 check
+    server 259884-web-02 3.85.196.6:80 check
+EOL
 
-# Add backend server entries
-for server_entry in "${backend_servers[@]}"; do
-  echo "  server $server_entry" | sudo tee -a "$haproxy_cfg"
-done
-
-# Ensure HAProxy can be managed via an init script
+# Enable HAProxy as a system service
 sudo systemctl enable haproxy
 
-# Restart HAProxy to apply the configuration
-sudo systemctl restart haproxy
+# Start HAProxy
+sudo systemctl start haproxy
+
+# Check HAProxy status
+sudo systemctl status haproxy
+
+# Verify HAProxy configuration
+if sudo netstat -tuln | grep ':80' >/dev/null; then
+    echo "HAProxy is listening on port 80."
+else
+    echo "HAProxy is not listening on port 80. Please check the configuration."
+fi
