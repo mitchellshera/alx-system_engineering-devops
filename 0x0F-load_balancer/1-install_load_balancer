@@ -1,44 +1,12 @@
 #!/usr/bin/env bash
-#!/bin/bash
-
 # Update the package list and install HAProxy with the -y option for automatic yes to prompts
-sudo apt-get update -y
-sudo apt-get install haproxy -y
 
-# Configure HAProxy
-cat <<EOL | sudo tee /etc/haproxy/haproxy.cfg
-global
-    daemon
-    maxconn 256
+sudo apt-get -y install software-properties-common
+sudo add-apt-repository -y ppa:vbernat/haproxy-2.5
+sudo apt-get -y update
 
-defaults
-    mode http
-    timeout connect 5000ms
-    timeout client 50000ms
-    timeout server 50000ms
-
-frontend http-in
-    bind *:80
-    default_backend servers
-
-backend servers
-    balance roundrobin
-    server 259884-web-01 52.91.123.176:80 check
-    server 259884-web-02 3.85.196.6:80 check
-EOL
-
-# Enable HAProxy as a system service
-sudo systemctl enable haproxy
-
-# Start HAProxy
-sudo systemctl start haproxy
-
-# Check HAProxy status
-sudo systemctl status haproxy
-
-# Verify HAProxy configuration
-if sudo netstat -tuln | grep ':80' >/dev/null; then
-    echo "HAProxy is listening on port 80."
-else
-    echo "HAProxy is not listening on port 80. Please check the configuration."
-fi
+# Install HAProxy
+sudo apt-get -y install haproxy
+sudo sed -i -e '$aENABLED=1\n' /etc/default/haproxy
+sudo sed -i -e '$a\listen http-in\n\tbind :80\n\tbalance roundrobin\n\tserver 259884-web-01 52.91.123.176:80 check\n\tserver 259884-web-02 3.85.196.6:80 check\n' /etc/haproxy/haproxy.cfg
+sudo service haproxy restart
