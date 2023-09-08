@@ -10,7 +10,7 @@ defaults
 
 frontend http-in
     bind *:80
-    bind *:443 ssl crt /etc/letsencrypt/live/holgdie64.tech/fullchain.pem
+    bind *:443 ssl crt /etc/letsencrypt/live/www.holgdie64.tech/fullchain.pem
     reqadd X-Forwarded-Proto:\ https
     default_backend web-servers
 
