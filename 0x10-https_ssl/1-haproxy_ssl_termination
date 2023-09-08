@@ -21,17 +21,19 @@ defaults
 frontend www-http
     bind *:80
     reqadd X-Forwarded-Proto:\ http
-    acl letsencrypt-acl path_beg /.well-known/acme-challenge/
-    use_backend letsencrypt-backend if letsencrypt-acl
+    
     default_backend www-backend
 
 frontend www-https
     bind *:443 ssl crt /etc/letsencrypt/live/www.holgdie64.tech/fullchain.pem
     reqadd X-Forwarded-Proto:\ https
+    acl letsencrypt-acl path_beg /.well-known/acme-challenge/
+    use_backend letsencrypt-backend if letsencrypt-acl
     default_backend www-backend
 
 backend www-backend
     balance roundrobin
+    redirect scheme https if !{ ssl_fc }
     server 259884-web-01 54.237.9.28:80 check
     server 259884-web-02 3.85.196.6:80 check
 
