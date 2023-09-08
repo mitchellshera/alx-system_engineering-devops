@@ -16,5 +16,5 @@ frontend http-in
 
 backend web-servers
     balance roundrobin
-    server web-01 259884-web-01:80 check
-    server web-02 259884-web-02:80 check
+    server 259884-web-01 54.237.9.28:80 check
+    server 259884-web-02 3.85.196.6:80 check
