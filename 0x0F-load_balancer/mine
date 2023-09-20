@@ -54,3 +54,18 @@ echo 'This is a custom 404 page' | sudo tee /var/www/html/404.html
 
 # Restart Nginx to apply the custom 404 page
 sudo systemctl restart nginx
+
+
+
+
+
+
+
+
+
+
+
+
+CREATE USER 'replica_user'@'%' IDENTIFIED BY 'password';
+GRANT REPLICATION SLAVE ON *.* TO 'replica_user'@'%';
+FLUSH PRIVILEGES;
