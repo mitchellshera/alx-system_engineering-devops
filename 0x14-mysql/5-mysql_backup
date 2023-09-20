@@ -1,33 +1,4 @@
 #!/usr/bin/env bash
-# Check for the correct number of arguments
-if [ "$#" -ne 1 ]; then
-  echo "Usage: $0 <mysql_root_password>"
-  exit 1
-fi
-
-# MySQL root password
-MYSQL_ROOT_PASSWORD="$1"
-
-# Get the current date in the desired format (day-month-year)
-DATE=$(date +'%d-%m-%Y')
-
-# MySQL dump file name
-DUMP_FILE="backup.sql"
-
-# Compressed archive name
-ARCHIVE_NAME="${DATE}.tar.gz"
-
-# Directory to store the backup files
-BACKUP_DIR="/root"  # Replace with your desired directory
-
-# Create a directory to store the backup files
-mkdir -p "$BACKUP_DIR"
-
-# Generate MySQL dump and compress it
-mysqldump -u root -p"${MYSQL_ROOT_PASSWORD}" --all-databases > "${BACKUP_DIR}/${DUMP_FILE}"
-tar -czvf "${BACKUP_DIR}/${ARCHIVE_NAME}" -C "$BACKUP_DIR" "$DUMP_FILE"
-
-# Clean up the dump file (optional, uncomment if needed)
-# rm "${BACKUP_DIR}/${DUMP_FILE}"
-
-echo "Backup completed: ${BACKUP_DIR}/${ARCHIVE_NAME}"
+# Generates a compressed archive of a MySQL dump.
+mysqldump -uroot -p"$1" --all-databases > backup.sql
+tar -cvzf "$(date +%d-%m-%Y)".tar.gz backup.sql
