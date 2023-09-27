@@ -1,5 +1,6 @@
 #!/usr/bin/python3
-"""Exports to-do list information for a given employee ID to both JSON and CSV formats."""
+"""Exports to-do list information for
+a given employee ID to both JSON and CSV formats."""
 
 import csv
 import json
@@ -19,7 +20,7 @@ if __name__ == "__main__":
     # Fetch TODO list data
     todos_response = requests.get(url + "todos", params={"userId": user_id})
     todos = todos_response.json()
-    
+
     with open("{}.json".format(user_id), "w") as jsonfile:
         json.dump({user_id: [{
                 "task": t.get("title"),
