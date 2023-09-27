@@ -7,11 +7,10 @@ import sys
 
 
 if __name__ == "__main__":
-    user_id = sys.argv[1]
     url = "https://jsonplaceholder.typicode.com/"
 
     # Fetch user data
-    user_response = requests.get(url + "users/{}".format(user_id))
+    user_response = requests.get(url + "users")
     users= user_response.json()
 
     with open("todo_all_employees.json", "w") as jsonfile:
