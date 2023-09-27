@@ -1,5 +1,6 @@
 #!/usr/bin/python3
-"""Exports to-do list information for a given employee ID to both JSON and CSV formats."""
+"""Exports to-do list information
+for a given employee ID to both JSON and CSV formats."""
 import csv
 import json
 import requests
@@ -9,9 +10,8 @@ import sys
 if __name__ == "__main__":
     url = "https://jsonplaceholder.typicode.com/"
 
-    # Fetch user data
     user_response = requests.get(url + "users")
-    users= user_response.json()
+    users = user_response.json()
 
     with open("todo_all_employees.json", "w") as jsonfile:
         json.dump({
