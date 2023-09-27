@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """Returns to-do list information for a given employee ID and exports it to CSV format."""
 
-import json
+import csv
 import requests
 import sys
 
@@ -18,17 +18,8 @@ if __name__ == "__main__":
     todos_response = requests.get(url + "todos", params={"userId": user_id})
     todos = todos_response.json()
 
-    # Prepare and export data to JSON
-    json_data = {
-        user_id: [
-            {
-                "task": task.get("title"),
-                "completed": task.get("completed"),
-                "username": username
-            }
-            for task in todos
-        ]
-    }
-
-    with open("{}.json".format(user_id), "w") as jsonfile:
-        json.dump(json_data, jsonfile)
+    with open("{}.csv".format(user_id), "w", newline="") as csvfile:
+        writer = csv.writer(csvfile, quoting=csv.QUOTE_ALL)
+        [writer.writerow(
+            [user_id, username, t.get("completed"), t.get("title")]
+         ) for t in todos]
