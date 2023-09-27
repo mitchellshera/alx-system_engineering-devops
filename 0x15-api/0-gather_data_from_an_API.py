@@ -1,15 +1,32 @@
 #!/usr/bin/python3
-"""Returns to-do list information for a given employee ID."""
+'''Returns information about TODO list progress by employee ID.'''
 import requests
-import sys
+from sys import argv
 
-if __name__ == "__main__":
-    url = "https://jsonplaceholder.typicode.com/"
-    user = requests.get(url + "users/{}".format(sys.argv[1])).json()
-    todos = requests.get(url + "todos", params={"userId": sys.argv[1]}).json()
+if __name__ == '__main__':
+    todos_url = 'https://jsonplaceholder.typicode.com/todos'
+    users_url = 'https://jsonplaceholder.typicode.com/users'
+    
+    todos_response = requests.get(todos_url)
+    users_response = requests.get(users_url)
+    
+    if todos_response.status_code != 200 or users_response.status_code != 200:
+        print('Failed to retrieve data from the API.')
+        exit(1)
+    
+    todos_data = todos_response.json()
+    users_data = users_response.json()
 
-    complete = [t.get("title") for t in todos if t.get("completed") is True]
-    print("Employee {} is done with tasks({}/{}):".format(
-        user.get("name"), len(complete), len(todos)))
-    [print("\t {}".format(c)) for c in complete]
-
+    employee_id = int(argv[1])
+    user = next((u for u in users_data if u['id'] == employee_id), None)
+    
+    if user is None:
+        print(f'Employee with ID {employee_id} not found.')
+        exit(1)
+    
+    tasks = [task for task in todos_data if task['userId'] == employee_id]
+    completed_tasks = [task for task in tasks if task['completed']]
+    
+    print(f"Employee {user['name']} is done with tasks({len(completed_tasks)}/{len(tasks)}):")
+    for task in completed_tasks:
+        print(f"\t{task['title']}")
