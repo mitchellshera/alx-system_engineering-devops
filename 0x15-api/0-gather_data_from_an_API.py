@@ -4,6 +4,7 @@
 import requests
 import sys
 
+
 def get_employee_todo_progress(user_id):
     url = "https://jsonplaceholder.typicode.com/"
 
@@ -15,14 +16,15 @@ def get_employee_todo_progress(user_id):
     todos_response = requests.get(url + "todos", params={"userId": user_id})
     todos = todos_response.json()
 
-    # Filter completed tasks
-    completed_tasks = [task['title'] for task in todos if task.get('completed')]
+    completed_tasks = [task['title'] for task
+                       in todos if task.get('completed')]
 
     print("Employee {} is done with tasks({}/{}):".format(
         user_data.get('name'), len(completed_tasks), len(todos)))
-    
+
     for task in completed_tasks:
         print("\t {}".format(task))
+
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
