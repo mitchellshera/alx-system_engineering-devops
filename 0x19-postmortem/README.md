@@ -9,7 +9,6 @@
 - ### Impact
   - Our e-learning platform, Hbtn experienced a critical outage that lasted for 2 hours and 15 minutes. This disruption affected approximately 20% of our valued users.
   - During this downtime, users faced difficulties accessing their course materials, completing assignments and participating in live lectures.
-![unidentified bug](img.jpg)
 
 - ### Root Cause
   - The root cause of this outage was rather unique and quite complex. It stemmed from an unusual combination of user interactions and software glitches that triggered a domino effect across multiple parts of our system.
@@ -35,6 +34,10 @@
   - Issue Resolved: We swiftly patched the troublesome caching bug and implemented safeguards to ensure that the particular sequence of user actions would no longer wreak havoc. Hbtn was once again fully operational.
 
 ## Root Cause and Resolution:**
+
+
+![unidentified bug](img.jpg)
+
 
 - ### Root Cause
   - The heart of the issue lay in an extraordinary set of user actions that managed to uncover a previously hidden bug within our caching system. This bug set off a chain reaction that disrupted database queries, content delivery, and user authentication.
