@@ -15,7 +15,8 @@ def top_ten(subreddit):
     }
 
     try:
-        response = requests.get(url, headers=headers, params=params, allow_redirects=False)
+        response = requests.get(url, headers=headers,
+                                params=params, allow_redirects=False)
 
         if response.status_code == 200:
             data = response.json()
