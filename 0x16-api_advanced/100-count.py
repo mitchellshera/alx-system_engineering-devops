@@ -4,6 +4,7 @@ import requests
 
 
 def count_words(subreddit, word_list, found_dict=None, after=None):
+    """Prints counts of given words found in hot posts of a given subreddit"""
     if found_dict is None:
         found_dict = {}
 
